@@ -1,0 +1,92 @@
+const navbar = document.getElementsByTagName('nav')[0];
+window.addEventListener('scroll', function() {
+    console.log(window.scrollY);
+    if (window.scrollY > 1){
+        navbar.classList.replace('bg-transparent', 'nav-color');
+    } else if (this.window.scrollY <= 0 ) {
+        navbar.classList.replace('nav-color', 'bg-transparent')
+    }
+});
+
+// Carousel
+document.addEventListener('DOMContentLoaded', function () {
+  const wrapper = document.querySelector('.carousel-wrapper');
+  const leftBtn = document.querySelector('.button-arrow-left');
+  const rightBtn = document.querySelector('.button-arrow-right');
+
+  if (!wrapper || !leftBtn || !rightBtn) {
+    console.error("Elemen carousel tidak ditemukan");
+    return;
+  }
+
+  const card = document.querySelector('.card-fitur');
+  if (!card) {
+    console.error("Card tidak ditemukan");
+    return;
+  }
+
+  const scrollAmount = card.offsetWidth + 16;
+
+  leftBtn.addEventListener('click', () => {
+    if (wrapper.scrollLeft <= 0) {
+      // Kalau sudah di kiri paling ujung, lompat ke kanan terakhir
+      wrapper.scrollTo({
+        left: wrapper.scrollWidth,
+        behavior: 'smooth'
+      });
+    } else {
+      wrapper.scrollBy({
+        left: -scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  });
+
+  rightBtn.addEventListener('click', () => {
+    if (wrapper.scrollLeft + wrapper.clientWidth >= wrapper.scrollWidth - 10) {
+      // Kalau sudah di kanan paling ujung, lompat ke awal
+      wrapper.scrollTo({
+        left: 0,
+        behavior: 'smooth'
+      });
+    } else {
+      wrapper.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  });
+});
+
+// Pop Up rekomendasi
+
+document.querySelectorAll('.card').forEach(card => {
+  const popup = card.querySelector('.popup-info');
+
+  card.addEventListener('click', function (e) {
+    e.stopPropagation();
+
+    // Tutup semua popup lain
+    document.querySelectorAll('.popup-info').forEach(p => {
+      if (p !== popup) p.classList.remove('active');
+    });
+
+    // Toggle class "active"
+    popup.classList.toggle('active');
+  });
+});
+
+// Tutup semua saat klik di luar
+document.addEventListener('click', function () {
+  document.querySelectorAll('.popup-info').forEach(p => {
+    p.classList.remove('active');
+  });
+});
+
+
+
+
+
+
+
+
